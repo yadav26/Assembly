@@ -1,20 +1,20 @@
 var express = require('express')
   , bodyParser = require('body-parser');
-const app = express()
 
+const app = express()
 var request = require('request');
+
 app.use(bodyParser.json());
 
- 
+var qs =  "http://api.weatherstack.com/current?access_key=b72fac9c9c4107c0d00830879de12b86&query=";
+var qsbkup = "http://api.openweathermap.org/data/2.5/weather?q=";
+var qsbkup2 = ",AU&APPID=d77980b9eeccba2e2046ef03492a149d&units=metric";
+
+
 app.get('/', function (req, res) {
   res.send('Hello World')
 })
  
-
-var qs =  "http://api.weatherstack.com/current?access_key=b72fac9c9c4107c0d00830879de12b86&query=";
-
-var qsbkup = "http://api.openweathermap.org/data/2.5/weather?q=";
-var qsbkup2 = ",AU&APPID=d77980b9eeccba2e2046ef03492a149d&units=metric";
 
 app.get('/v1/weather', function (req, res) {
     var city = req.query.city
@@ -62,4 +62,10 @@ app.get('/v1/weather', function (req, res) {
   })
  
   
-app.listen(3000)
+app.listen(process.env.PORT || 3000)
+
+var server_port =  process.env.PORT || 3000;
+var server_host = process.env.YOUR_HOST || '0.0.0.0';
+app.listen(server_port, server_host, function() {
+    console.log('Listening on port %d', server_port);
+});
